@@ -1,0 +1,17 @@
+{
+	"name": "Cases by month-year",
+	"properties": {
+		"content": {
+			"query": "-- This is auto-generated code\nSELECT\n    concat(month, '/', year) as \"month/year\", sum(cases) as \"cases\"\nFROM\n    OPENROWSET(\n        BULK     'https://pandemicdatalake.blob.core.windows.net/public/curated/covid-19/ecdc_cases/latest/ecdc_cases.parquet',\n        FORMAT = 'parquet'\n    ) AS [result]\n    group by year, month\n    ORDER BY year, month\n    ",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "master",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}
