@@ -1,0 +1,64 @@
+{
+	"name": "Order Dataflow",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "order_dataset",
+						"type": "DatasetReference"
+					},
+					"name": "orderStream"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "order_dataset",
+						"type": "DatasetReference"
+					},
+					"name": "orderSink"
+				}
+			],
+			"transformations": [
+				{
+					"name": "currencyColumn",
+					"description": "adds currency column"
+				},
+				{
+					"name": "gbpValue",
+					"description": "add gbpValue column"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          id as string,",
+				"          date as string,",
+				"          value as string,",
+				"          customer_id as string,",
+				"          product_id as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     documentForm: 'documentPerLine') ~> orderStream",
+				"orderStream derive(currency = left(value, 1),",
+				"          value = toDecimal(dropLeft(value, 1), 13, 2)",
+				") ~> currencyColumn",
+				"currencyColumn derive(gbpValue = toDecimal(iif(currency == '$', value * 0.78, iif(currency == '€', value * 0.86, value)), 13, 2)) ~> gbpValue",
+				"gbpValue sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          id as string,",
+				"          date as string,",
+				"          value as string,",
+				"          customer_id as string,",
+				"          product_id as string",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> orderSink"
+			]
+		}
+	}
+}
