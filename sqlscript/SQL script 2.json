@@ -1,0 +1,17 @@
+{
+	"name": "SQL script 2",
+	"properties": {
+		"content": {
+			"query": "SET ANSI_NULLS ON\nGO\nSET QUOTED_IDENTIFIER ON\nGO\n\nCREATE TABLE [dbo].[customers]\n( \n\t[id] [nvarchar](max)  NULL,\n\t[name] [nvarchar](max)  NULL,\n\t[lastname] [nvarchar](max)  NULL,\n\t[age] [smallint]  NULL,\n\t[country] [nvarchar](max)  NULL,\n\t[city] [nvarchar](max)  NULL,\n\t[postcode] [nvarchar](max)  NULL,\n\t[street] [nvarchar](max)  NULL,\n\t[building] [nvarchar](max)  NULL\n)\nWITH\n(\n\tDISTRIBUTION = ROUND_ROBIN,\n\tHEAP\n)\nGO",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "SQL Pool",
+				"poolName": "SQL Pool"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

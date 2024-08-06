@@ -1,0 +1,16 @@
+{
+	"name": "order_pool",
+	"properties": {
+		"annotations": [],
+		"type": "SqlPoolTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "orders"
+		},
+		"sqlPool": {
+			"referenceName": "SQL Pool",
+			"type": "SqlPoolReference"
+		}
+	}
+}
